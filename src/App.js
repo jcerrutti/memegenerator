@@ -1,15 +1,9 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
-import axios from 'axios'
 import './App.css'
 
+import { _searchMemeByQuery, _getMostPopularMemes } from './api/memegenerator'
 import Search from './components/search/search'
-
-const API_KEY = '87564251-bffa-4deb-a642-aa29c864dbf4'
-
-const BASE_URL = 'http://version1.api.memegenerator.net//'
-const SEARCH_MEME = 'Generators_Search'
-const QUERY = 'q='
+import Grid from './components/grid/grid'
 
 class App extends Component {
   constructor(props) {
@@ -17,11 +11,20 @@ class App extends Component {
 
     this.state = {
       searchTerm: '',
+      list: [],
+      memeSelected: null,
     }
 
     this.searchMeme = this.searchMeme.bind(this)
     this.onSearchChange = this.onSearchChange.bind(this)
     this.onSearchSubmit = this.onSearchSubmit.bind(this)
+    this.memeSelected = this.memeSelected.bind(this)
+  }
+
+  memeSelected(item) {
+    this.setState({
+      memeSelected: item,
+    })
   }
 
   onSearchChange(event) {
@@ -35,24 +38,45 @@ class App extends Component {
   }
 
   searchMeme(searchTerm) {
-    axios
-      .get(`${BASE_URL}${SEARCH_MEME}?${QUERY}${searchTerm}&apiKey=${API_KEY}`)
-      .then(result => console.log(result))
-      .catch(error => console.error(error))
+    _searchMemeByQuery(searchTerm)
+      .then(result => {
+        this.setState({
+          list: result.result,
+          memeSelected: null,
+        })
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 
+  componentDidMount() {
+    _getMostPopularMemes()
+      .then(result => {
+        this.setState({
+          list: result.result,
+        })
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
   render() {
-    const { searchTerm } = this.state
+    const { searchTerm, list, memeSelected } = this.state
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
+        {
+          // <header className="App-header">
+          // <img src={logo} className="App-logo" alt="logo" />
+          // <h1 className="App-title">Welcome to React</h1>
+          // </header>
+        }
         <div>
           <Search onChange={this.onSearchChange} onSubmit={this.onSearchSubmit} value={searchTerm}>
             Search
           </Search>
+          {memeSelected && memeSelected.displayName}
+          <Grid onSelect={this.memeSelected} list={list} />
         </div>
       </div>
     )
