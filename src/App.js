@@ -4,6 +4,7 @@ import './App.css'
 import { _searchMemeByQuery, _getMostPopularMemes } from './api/memegenerator'
 import Search from './components/search/search'
 import Grid from './components/grid/grid'
+import ModalMeme from './components/modal-meme/modal-meme'
 
 class App extends Component {
   constructor(props) {
@@ -13,17 +14,33 @@ class App extends Component {
       searchTerm: '',
       list: [],
       memeSelected: null,
+      modalOpen: false,
     }
 
     this.searchMeme = this.searchMeme.bind(this)
     this.onSearchChange = this.onSearchChange.bind(this)
     this.onSearchSubmit = this.onSearchSubmit.bind(this)
     this.memeSelected = this.memeSelected.bind(this)
+    this.openMemeModal = this.openMemeModal.bind(this)
+    this.closeMemeModal = this.closeMemeModal.bind(this)
   }
 
   memeSelected(item) {
     this.setState({
       memeSelected: item,
+    })
+    this.openMemeModal()
+  }
+
+  openMemeModal(){
+    this.setState({
+      modalOpen: true,
+    })
+  }
+
+  closeMemeModal() {
+    this.setState({
+      modalOpen: false,
     })
   }
 
@@ -62,7 +79,7 @@ class App extends Component {
       })
   }
   render() {
-    const { searchTerm, list, memeSelected } = this.state
+    const { searchTerm, list, memeSelected, modalOpen } = this.state
     return (
       <div className="App">
         {
@@ -77,6 +94,7 @@ class App extends Component {
           </Search>
           {memeSelected && memeSelected.displayName}
           <Grid onSelect={this.memeSelected} list={list} />
+          <ModalMeme show={modalOpen} memeSelected={memeSelected} onClose={this.closeMemeModal} />
         </div>
       </div>
     )

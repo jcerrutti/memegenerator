@@ -3,7 +3,7 @@ import MemeItem from '../meme-item/meme-item'
 
 const Grid = ({list, onSelect}) => {
   return (
-    <div>
+    <div className="row">
       {list.length > 0 && list.map((item) => 
         <MemeItem
           onSelect={onSelect}

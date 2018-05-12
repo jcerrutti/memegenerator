@@ -2,8 +2,8 @@ import React from 'react'
 
 const MemeItem = ({ item, onSelect }) => {
   return (
-    <div onClick={() => onSelect(item)}>
-      <img alt={item.urlName} src={item.imageUrl} />
+    <div className="meme-item__content" onClick={() => onSelect(item)}>
+      <img className="meme-item__image" alt={item.urlName} src={item.imageUrl} />
     </div>
   )
 }
