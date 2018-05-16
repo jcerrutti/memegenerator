@@ -32,7 +32,7 @@ class App extends Component {
     this.openMemeModal()
   }
 
-  openMemeModal(){
+  openMemeModal() {
     this.setState({
       modalOpen: true,
     })
@@ -92,9 +92,10 @@ class App extends Component {
           <Search onChange={this.onSearchChange} onSubmit={this.onSearchSubmit} value={searchTerm}>
             Search
           </Search>
-          {memeSelected && memeSelected.displayName}
           <Grid onSelect={this.memeSelected} list={list} />
-          <ModalMeme show={modalOpen} memeSelected={memeSelected} onClose={this.closeMemeModal} />
+          {memeSelected && (
+            <ModalMeme show={modalOpen} memeSelected={memeSelected} onClose={this.closeMemeModal} />
+          )}
         </div>
       </div>
     )
