@@ -15,6 +15,7 @@ class App extends Component {
       list: [],
       memeSelected: null,
       modalOpen: false,
+      page: 0,
     }
 
     this.searchMeme = this.searchMeme.bind(this)
@@ -23,6 +24,7 @@ class App extends Component {
     this.memeSelected = this.memeSelected.bind(this)
     this.openMemeModal = this.openMemeModal.bind(this)
     this.closeMemeModal = this.closeMemeModal.bind(this)
+    this.showMore = this.showMore.bind(this)
   }
 
   memeSelected(item) {
@@ -67,6 +69,20 @@ class App extends Component {
       })
   }
 
+  showMore() {
+    let { page } = this.state
+    page++
+    _getMostPopularMemes(page).then(result => {
+      this.setState(prevState => {
+        return {
+          page,
+          list: [...prevState.list, ...result.result],
+        }
+      })
+      console.log(this.state)
+    })
+  }
+
   componentDidMount() {
     _getMostPopularMemes()
       .then(result => {
@@ -89,10 +105,12 @@ class App extends Component {
           // </header>
         }
         <div>
-          <Search onChange={this.onSearchChange} onSubmit={this.onSearchSubmit} value={searchTerm}>
-            Search
-          </Search>
-          <Grid onSelect={this.memeSelected} list={list} />
+          <Search
+            onChange={this.onSearchChange}
+            onSubmit={this.onSearchSubmit}
+            value={searchTerm}
+          />
+          <Grid onSelect={this.memeSelected} onShowMore={this.showMore} list={list} />
           {memeSelected && (
             <ModalMeme show={modalOpen} memeSelected={memeSelected} onClose={this.closeMemeModal} />
           )}

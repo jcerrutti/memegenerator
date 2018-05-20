@@ -1,4 +1,5 @@
 import React from 'react'
+import './meme-item.css'
 
 const MemeItem = ({ item, onSelect }) => {
   return (

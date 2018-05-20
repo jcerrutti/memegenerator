@@ -2,6 +2,6 @@
 {
   // The following will hide the js and map files in the editor
   "files.exclude": {
-    "**/*.css": true
+    "**/*.css": false
   }
 }
