@@ -34,7 +34,6 @@ export function _getMostPopularMemes(pageIndex = 0) {
 
 export function _generateNewInstance(instance) {
   const { text0, text1, generatorID } = instance
-  debugger
   return new Promise((resolve, reject) => {
     axios
       .get(

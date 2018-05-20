@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Modal, Row, Col } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
+import { Loader, Input, Button } from 'semantic-ui-react'
 import { _generateNewInstance } from '../../api/memegenerator'
+import './modal-meme.css'
 
 class ModalMeme extends Component {
   constructor(props) {
@@ -8,11 +10,13 @@ class ModalMeme extends Component {
     this.state = {
       text0: '',
       text1: '',
+      imageLoaded: false,
       imageRendered: null,
     }
 
     this.handleInputChange = this.handleInputChange.bind(this)
     this.generateNewInstance = this.generateNewInstance.bind(this)
+    this.handleImageLoaded = this.handleImageLoaded.bind(this)
     this.resetModal = this.resetModal.bind(this)
   }
 
@@ -20,6 +24,10 @@ class ModalMeme extends Component {
     return {
       imageRendered: nextProps.memeSelected.imageUrl,
     }
+  }
+
+  handleImageLoaded() {
+    this.setState({ imageLoaded: true })
   }
 
   handleInputChange(event) {
@@ -41,9 +49,11 @@ class ModalMeme extends Component {
       text0,
       text1,
     }
+    this.setState({
+      imageLoaded: false,
+    })
     _generateNewInstance(obj)
       .then(result => {
-        console.log(result)
         this.setState({
           imageRendered: result.instanceImageUrl,
         })
@@ -55,11 +65,11 @@ class ModalMeme extends Component {
 
   resetModal() {
     const { onClose } = this.props
-
     this.setState({
       text0: '',
       text1: '',
       imageRendered: null,
+      imageLoaded: false,
     })
 
     onClose()
@@ -67,7 +77,7 @@ class ModalMeme extends Component {
 
   render() {
     const { show, memeSelected } = this.props
-    const { text0, text1, imageRendered } = this.state
+    const { text0, text1, imageRendered, imageLoaded } = this.state
     return (
       <React.Fragment>
         {memeSelected && (
@@ -76,30 +86,32 @@ class ModalMeme extends Component {
               <Modal.Title>{memeSelected.displayName}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Row className="show-grid">
-                <Col xs={12} md={8}>
-                  <img alt={memeSelected.urlName} src={imageRendered} />
-                </Col>
-                <Col xs={6} md={4}>
-                  <form onSubmit={this.generateNewInstance}>
-                    <input
-                      type="text"
-                      name="text0"
-                      placeholder="Top text"
-                      value={text0}
-                      onChange={this.handleInputChange}
-                    />
-                    <input
-                      type="text"
-                      name="text1"
-                      placeholder="Bottom text"
-                      value={text1}
-                      onChange={this.handleInputChange}
-                    />
-                    <button type="submit">Generate</button>
-                  </form>
-                </Col>
-              </Row>
+              <img
+                className={!imageLoaded ? 'image-loading' : ''}
+                alt={memeSelected.urlName}
+                src={imageRendered}
+                onLoad={this.handleImageLoaded}
+              />
+              {!imageLoaded && <Loader active size="huge" />}
+              <form className="meme-form" onSubmit={this.generateNewInstance}>
+                <Input
+                  type="text"
+                  name="text0"
+                  placeholder="Top text"
+                  value={text0}
+                  onChange={this.handleInputChange}
+                />
+                <Input
+                  type="text"
+                  name="text1"
+                  placeholder="Bottom text"
+                  value={text1}
+                  onChange={this.handleInputChange}
+                />
+                <Button className="form-action-button" primary type="submit">
+                  Generate
+                </Button>
+              </form>
             </Modal.Body>
           </Modal>
         )}

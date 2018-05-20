@@ -1,0 +1,22 @@
+.image-loading {
+    opacity: .5;
+}
+
+.modal-body {
+    text-align: center;
+}
+
+.meme-form {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+    .meme-form {
+        flex-direction: column;
+    }
+    .meme-form>* {
+        margin-bottom: 10px;
+    }
+}
