@@ -11,18 +11,20 @@ class ModalMeme extends Component {
       text0: '',
       text1: '',
       imageLoaded: false,
+      originalImage: null,
       imageRendered: null,
     }
 
     this.handleInputChange = this.handleInputChange.bind(this)
     this.generateNewInstance = this.generateNewInstance.bind(this)
     this.handleImageLoaded = this.handleImageLoaded.bind(this)
+    this.generateNewURI = this.generateNewURI.bind(this)
     this.resetModal = this.resetModal.bind(this)
   }
 
   static getDerivedStateFromProps(nextProps) {
     return {
-      imageRendered: nextProps.memeSelected,
+      originalImage: nextProps.memeSelected,
     }
   }
 
@@ -37,6 +39,16 @@ class ModalMeme extends Component {
 
     this.setState({
       [name]: value,
+    })
+  }
+
+  generateNewURI(event) {
+    event.preventDefault()
+    const { originalImage, text0, text1 } = this.state
+    let newImage = `${originalImage}/${text0}/${text1}.jpg`
+    this.setState({
+      imageLoaded: false,
+      imageRendered: newImage,
     })
   }
 
@@ -76,25 +88,29 @@ class ModalMeme extends Component {
   }
 
   render() {
-    const { show, memeSelected } = this.props
-    const { text0, text1, imageRendered, imageLoaded } = this.state
-    const imageMeme = `${memeSelected}/_.jpg`
+    const { show } = this.props
+    const { text0, text1, imageRendered, imageLoaded, originalImage } = this.state
+    const imageMeme = imageRendered || `${originalImage}/_.jpg`
+
+    const imageLoadingClass = !imageLoaded && 'image-loading'
+    const imageClass = `${imageLoadingClass} image-modal`
+
     return (
       <React.Fragment>
-        {memeSelected && (
+        {originalImage && (
           <Modal show={show} onHide={this.resetModal}>
             <Modal.Header closeButton>
-              <Modal.Title>{memeSelected.displayName}</Modal.Title>
+              <Modal.Title>Meme</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <img
-                className={!imageLoaded ? 'image-loading' : ''}
+                className={imageClass}
                 alt={imageMeme}
-                src={imageRendered}
+                src={imageMeme}
                 onLoad={this.handleImageLoaded}
               />
-              {!imageLoaded && <Loader active size="huge" />}
-              <form className="meme-form" onSubmit={this.generateNewInstance}>
+              {!imageLoaded && <Loader active size="huge"/>}
+              <form className="meme-form" onSubmit={this.generateNewURI}>
                 <Input
                   type="text"
                   name="text0"
