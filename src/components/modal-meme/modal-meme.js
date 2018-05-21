@@ -92,7 +92,7 @@ class ModalMeme extends Component {
                 src={imageRendered}
                 onLoad={this.handleImageLoaded}
               />
-              {!imageLoaded && <Loader active size="huge" />}
+              {!imageLoaded && <Loader active size="huge"/>}
               <form className="meme-form" onSubmit={this.generateNewInstance}>
                 <Input
                   type="text"

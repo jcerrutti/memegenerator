@@ -43,7 +43,7 @@ class MemeItem extends React.Component {
           onLoad={this.handleImageLoaded}
           onError={this.handleImageErrored}
         />
-        {!imageLoaded && <Loader active inline />}
+        {!imageLoaded && <Loader active inline/>}
       </div>
     )
   }

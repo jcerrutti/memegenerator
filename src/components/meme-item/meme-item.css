@@ -1,23 +1,22 @@
 .meme-item__content {
-    display: inline-block;
-    margin: 20px;
-    padding: 4px;
-    margin-bottom: 20px;
-    line-height: 1.42857143;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    -webkit-transition: border .2s ease-in-out;
-    -o-transition: border .2s ease-in-out;
-    transition: border .2s ease-in-out;
+  display: inline-block;
+  padding: 4px;
+  margin-bottom: 20px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  -webkit-transition: border .2s ease-in-out;
+  -o-transition: border .2s ease-in-out;
+  transition: border .2s ease-in-out;
 }
 
 .meme-item__content:hover {
-    cursor: pointer;
-    border: 3px solid darkblue;
+  cursor: pointer;
+  border: 3px solid darkblue;
 }
 
 .meme-item__image {
-    max-height: 300px;
-    width: auto;
+  max-height: 300px;
+  width: auto;
 }
