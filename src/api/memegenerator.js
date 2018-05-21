@@ -31,11 +31,16 @@ export function _getMostPopularMemes(pageIndex = 0) {
       .then(result => {
         const data = result.data
         let templateArray = []
+        let limit = 0
         for (const key in data) {
+          limit++
           const segments = data[key].split('/')
           const meme = segments[segments.length - 1]
           const memeURI = `${BASE_URL}${meme}`
           templateArray.push(memeURI)
+          if (limit === 20) {
+            break
+          }
         }
         resolve(templateArray)
       })
@@ -48,7 +53,7 @@ export function _generateNewInstance(instance) {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `${BASE_URL}${GENERATE_INSTANCE}?${GENERATOR_ID}${generatorID}&${TEXT_0}${text0}&${TEXT_1}${text1}&$&apiKey=${API_KEY}`
+        `${BASE_URL}${GENERATE_INSTANCE}?${GENERATOR_ID}${generatorID}&${TEXT_0}${text0}&${TEXT_1}${text1}&$&apiKey=${API_KEY}`,
       )
       .then(result => resolve(result.data.result))
       .catch(err => reject(err))

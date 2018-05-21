@@ -22,7 +22,7 @@ class ModalMeme extends Component {
 
   static getDerivedStateFromProps(nextProps) {
     return {
-      imageRendered: nextProps.memeSelected.imageUrl,
+      imageRendered: nextProps.memeSelected,
     }
   }
 
@@ -78,6 +78,7 @@ class ModalMeme extends Component {
   render() {
     const { show, memeSelected } = this.props
     const { text0, text1, imageRendered, imageLoaded } = this.state
+    const imageMeme = `${memeSelected}/_.jpg`
     return (
       <React.Fragment>
         {memeSelected && (
@@ -88,7 +89,7 @@ class ModalMeme extends Component {
             <Modal.Body>
               <img
                 className={!imageLoaded ? 'image-loading' : ''}
-                alt={memeSelected.urlName}
+                alt={imageMeme}
                 src={imageRendered}
                 onLoad={this.handleImageLoaded}
               />

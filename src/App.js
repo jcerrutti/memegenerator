@@ -79,7 +79,6 @@ class App extends Component {
           list: [...prevState.list, ...result.result],
         }
       })
-      console.log(this.state)
     })
   }
 
