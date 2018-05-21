@@ -2,8 +2,9 @@ import axios from 'axios'
 
 const API_KEY = '87564251-bffa-4deb-a642-aa29c864dbf4'
 
-const BASE_URL = 'http://version1.api.memegenerator.net//'
-const MOST_POPULAR = 'Generators_Select_ByPopular'
+const BASE_URL = 'https://memegen.link/'
+const API = 'api/'
+const TEMPLATE = 'templates/'
 const SEARCH_MEME = 'Generators_Search'
 const GENERATE_INSTANCE = 'Instance_Create'
 
@@ -26,8 +27,18 @@ export function _searchMemeByQuery(query) {
 export function _getMostPopularMemes(pageIndex = 0) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${BASE_URL}${MOST_POPULAR}?${PAGE_INDEX}${pageIndex}&${PAGE_SIZE}20&apiKey=${API_KEY}`)
-      .then(result => resolve(result.data))
+      .get(`${BASE_URL}${API}${TEMPLATE}`)
+      .then(result => {
+        const data = result.data
+        let templateArray = []
+        for (const key in data) {
+          const segments = data[key].split('/')
+          const meme = segments[segments.length - 1]
+          const memeURI = `${BASE_URL}${meme}`
+          templateArray.push(memeURI)
+        }
+        resolve(templateArray)
+      })
       .catch(err => reject(err))
   })
 }

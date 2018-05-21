@@ -6,10 +6,10 @@ import { Button } from 'semantic-ui-react'
 const Grid = ({list, onSelect, onShowMore}) => {
   return (
     <div className="grid">
-      {list.length > 0 && list.map((item) => 
+      {list.length > 0 && list.map((item, index) => 
         <MemeItem
           onSelect={onSelect}
-          key={item.generatorID}
+          key={index}
           item={item}>
         </MemeItem>
       )}

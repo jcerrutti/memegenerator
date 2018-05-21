@@ -33,13 +33,15 @@ class MemeItem extends React.Component {
   }
 
   render() {
-    const { item, onSelect, imageLoaded } = this.state
+    const { onSelect, imageLoaded } = this.state
+    let { item } = this.state
+    item = `${item}.jpg`
     return (
       <div className="meme-item__content" onClick={() => onSelect(item)}>
         <img
           className="meme-item__image"
-          alt={item.urlName}
-          src={item.imageUrl}
+          alt={item}
+          src={item}
           onLoad={this.handleImageLoaded}
           onError={this.handleImageErrored}
         />

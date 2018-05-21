@@ -87,7 +87,7 @@ class App extends Component {
     _getMostPopularMemes()
       .then(result => {
         this.setState({
-          list: result.result,
+          list: result,
         })
       })
       .catch(err => {
